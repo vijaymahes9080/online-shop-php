@@ -18,7 +18,7 @@
 
 Boi Mela is a web-based Online Book Shop designed to provide users with an intuitive shopping experience to browse, search, and purchase books. It comes complete with a comprehensive administrative control panel for managing products, orders, users, and customer feedback messages.
 
-![Boi Mela Banner](images/boimela_banner.png)
+<img src="images/boimela_banner.png" alt="Boi Mela Banner" width="100%" style="border-radius: 8px; border: 1px solid #ddd;" />
 
 ## 🗺️ System Architecture
 
@@ -121,6 +121,33 @@ $conn = mysqli_connect('localhost', 'root', '', 'vijay_book_shop') or die('conne
 1.  Move the project directory to your web server root (e.g., `htdocs` for XAMPP, `www` for WAMP).
 2.  Start Apache and MySQL services.
 3.  Open `http://localhost/online-shop-php/` in your browser.
+
+---
+
+## 📸 System Screenshots & UI Showcase
+
+Here is a visual overview of the Boi Mela online shop system:
+
+<div align="center">
+  <h3>🏠 Responsive Customer Storefront</h3>
+  <p>The shop interface features custom catalog listings, interactive filters, search parameters, shopping cart status, and dynamic PDF invoice print utilities.</p>
+  <img src="images/boimela_showcase.png" alt="Boi Mela Bookstore Showcase" width="100%" style="border-radius: 8px; margin-bottom: 20px; border: 1px solid #e2e8f0;" />
+  
+  <br/>
+  
+  <table width="100%">
+    <tr>
+      <td width="50%" align="center">
+        <h3>📢 Project Banner</h3>
+        <img src="images/boimela_banner.png" alt="Boi Mela Banner" style="border-radius: 8px; border: 1px solid #e2e8f0;" />
+      </td>
+      <td width="50%" align="center">
+        <h3>📊 Administrative Analytics Portal</h3>
+        <img src="images/boimela_dashboard.png" alt="Boi Mela Admin Dashboard" style="border-radius: 8px; border: 1px solid #e2e8f0;" />
+      </td>
+    </tr>
+  </table>
+</div>
 
 ---
 
