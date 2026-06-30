@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>register</title>
+   <!-- font awesome cdn link  -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+   <!-- custom css file link  -->
+   <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="form-container">
+   <form id="registerForm">
+      <h3>register now</h3>
+      <input type="text" id="name" placeholder="enter your name" required class="box">
+      <input type="email" id="email" placeholder="enter your email" required class="box">
+      <input type="password" id="password" placeholder="enter your password" required class="box">
+      <input type="password" id="cpassword" placeholder="confirm your password" required class="box">
+      <select id="user-type" class="box">
+         <option value="user">user</option>
+         <option value="admin">admin</option>
+      </select>
+      <input type="password" id="admin-inputText" placeholder="Admin Secret Password" class="box" style="display: none;">
+      <input type="submit" value="register now" class="btn">
+      <p>already have an account? <a href="login.html">login now</a></p>
+   </form>
+</div>
+
+<script src="js/db.js"></script>
+<script>
+   document.addEventListener('DOMContentLoaded', () => {
+      const userTypeSelect = document.getElementById("user-type");
+      const adminInput = document.getElementById("admin-inputText");
+
+      userTypeSelect.addEventListener("change", (e) => {
+         if (e.target.value === "admin") {
+            adminInput.style.display = "block";
+            adminInput.required = true;
+         } else {
+            adminInput.style.display = "none";
+            adminInput.required = false;
+            adminInput.value = "";
+         }
+      });
+
+      const registerForm = document.getElementById('registerForm');
+      registerForm.addEventListener('submit', (e) => {
+         e.preventDefault();
+         const name = document.getElementById('name').value.trim();
+         const email = document.getElementById('email').value.trim();
+         const password = document.getElementById('password').value;
+         const cpassword = document.getElementById('cpassword').value;
+         const userType = userTypeSelect.value;
+         const adminSecret = adminInput.value;
+
+         if (password !== cpassword) {
+            showNotification('Confirm password not matched!');
+            return;
+         }
+
+         if (userType === 'admin' && adminSecret !== 'iamadmin') {
+            showNotification('Admin secret password not matched!');
+            return;
+         }
+
+         const result = registerUser(name, email, password, userType);
+         if (result.success) {
+            showNotification(result.message);
+            setTimeout(() => {
+               window.location.href = 'login.html';
+            }, 1000);
+         } else {
+            showNotification(result.message);
+         }
+      });
+   });
+</script>
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>search page</title>
+   <!-- font awesome cdn link  -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+   <!-- custom css file link  -->
+   <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+   
+<!-- Header Layout Included -->
+<header class="header">
+   <div class="header-1">
+      <div class="flex">
+         <div class="share">
+            <a href="#" class="fab fa-facebook-f"></a>
+            <a href="#" class="fab fa-twitter"></a>
+            <a href="#" class="fab fa-instagram"></a>
+            <a href="#" class="fab fa-linkedin"></a>
+         </div>
+         <p> new <a href="login.html">login</a> | <a href="register.html">register</a> </p>
+      </div>
+   </div>
+   <div class="header-2">
+      <div class="flex">
+         <a href="home.html" class="logo">বইমেলা</a>
+         <nav class="navbar">
+            <a href="home.html">home</a>
+            <a href="about.html">about</a>
+            <a href="shop.html">shop</a>
+            <a href="contact.html">contact</a>
+            <a href="orders.html">orders</a>
+         </nav>
+         <div class="icons">
+            <div id="menu-btn" class="fas fa-bars"></div>
+            <a href="search_page.html" class="fas fa-search"></a>
+            <div id="user-btn" class="fas fa-user"></div>
+            <a href="cart.html"> <i class="fas fa-shopping-cart"></i> <span>(0)</span> </a>
+         </div>
+         <div class="user-box">
+            <p>username : <span></span></p>
+            <p>email : <span></span></p>
+            <a href="#" onclick="logoutUser()" class="delete-btn">logout</a>
+         </div>
+      </div>
+   </div>
+</header>
+
+<div class="heading">
+   <h3>search page</h3>
+   <p> <a href="home.html">home</a> / search </p>
+</div>
+
+<section class="search-form">
+   <form id="searchForm">
+      <input type="text" id="searchBox" placeholder="search products..." class="box" required>
+      <input type="submit" value="search" class="btn">
+   </form>
+</section>
+
+<section class="products" style="padding-top: 0;">
+   <div class="box-container" id="resultsContainer">
+      <p class="empty">search something!</p>
+   </div>
+</section>
+
+<!-- Footer Layout Included -->
+<section class="footer">
+   <div class="box-container">
+      <div class="box">
+         <h3>quick links</h3>
+         <a href="home.html">home</a>
+         <a href="about.html">about</a>
+         <a href="shop.html">shop</a>
+         <a href="contact.html">contact</a>
+      </div>
+      <div class="box">
+         <h3>extra links</h3>
+         <a href="login.html">login</a>
+         <a href="register.html">register</a>
+         <a href="cart.html">cart</a>
+         <a href="orders.html">orders</a>
+      </div>
+      <div class="box">
+         <h3>contact info</h3>
+         <p> <i class="fas fa-phone"></i> YOUR_PHONE_NUMBER</p>
+         <p> <i class="fas fa-envelope"></i> vijaymahes9080@gmail.com </p>
+         <p> <i class="fas fa-map-marker-alt"></i> India </p>
+      </div>
+      <div class="box">
+         <h3>follow us</h3>
+         <a href="#"> <i class="fab fa-facebook-f"></i> facebook </a>
+         <a href="#"> <i class="fab fa-twitter"></i> twitter </a>
+         <a href="#"> <i class="fab fa-instagram"></i> instagram </a>
+         <a href="#"> <i class="fab fa-linkedin"></i> linkedin </a>
+      </div>
+   </div>
+</section>
+
+<script src="js/db.js"></script>
+<script src="js/script.js"></script>
+<script>
+   document.addEventListener('DOMContentLoaded', () => {
+      // Authenticate
+      const user = checkAuth();
+      if (!user) return;
+
+      const searchForm = document.getElementById('searchForm');
+      const searchBox = document.getElementById('searchBox');
+      const container = document.getElementById('resultsContainer');
+
+      searchForm.addEventListener('submit', (e) => {
+         e.preventDefault();
+         const query = searchBox.value.trim().toLowerCase();
+         container.innerHTML = '';
+
+         if (!query) {
+            container.innerHTML = '<p class="empty">search something!</p>';
+            return;
+         }
+
+         const products = getProducts();
+         const filtered = products.filter(p => p.name.toLowerCase().includes(query));
+
+         if (filtered.length === 0) {
+            container.innerHTML = '<p class="empty">no result found!</p>';
+         } else {
+            filtered.forEach(p => {
+               const form = document.createElement('form');
+               form.className = 'box';
+               
+               form.innerHTML = `
+                  <img src="uploaded_img/${p.image}" alt="${p.name}" class="image" onerror="this.src='https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=300';">
+                  <div class="name">${p.name}</div>
+                  <div class="price">৳${p.price}/-</div>
+                  <input type="number" class="qty" name="product_quantity" min="1" value="1">
+                  <input type="hidden" name="product_name" value="${p.name}">
+                  <input type="hidden" name="product_price" value="${p.price}">
+                  <input type="hidden" name="product_image" value="${p.image}">
+                  <input type="submit" class="btn" value="add to cart">
+               `;
+
+               form.addEventListener('submit', (e) => {
+                  e.preventDefault();
+                  const qty = form.querySelector('input[name="product_quantity"]').value;
+                  const res = addToCart(user.id, p.name, p.price, p.image, qty);
+                  showNotification(res.message);
+                  updateHeaderNav();
+               });
+
+               container.appendChild(form);
+            });
+         }
+      });
+   });
+</script>
+</body>
+</html>

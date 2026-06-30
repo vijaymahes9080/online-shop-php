@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>contact</title>
+   <!-- font awesome cdn link  -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+   <!-- custom css file link  -->
+   <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+   
+<!-- Header Layout Included -->
+<header class="header">
+   <div class="header-1">
+      <div class="flex">
+         <div class="share">
+            <a href="#" class="fab fa-facebook-f"></a>
+            <a href="#" class="fab fa-twitter"></a>
+            <a href="#" class="fab fa-instagram"></a>
+            <a href="#" class="fab fa-linkedin"></a>
+         </div>
+         <p> new <a href="login.html">login</a> | <a href="register.html">register</a> </p>
+      </div>
+   </div>
+   <div class="header-2">
+      <div class="flex">
+         <a href="home.html" class="logo">বইমেলা</a>
+         <nav class="navbar">
+            <a href="home.html">home</a>
+            <a href="about.html">about</a>
+            <a href="shop.html">shop</a>
+            <a href="contact.html">contact</a>
+            <a href="orders.html">orders</a>
+         </nav>
+         <div class="icons">
+            <div id="menu-btn" class="fas fa-bars"></div>
+            <a href="search_page.html" class="fas fa-search"></a>
+            <div id="user-btn" class="fas fa-user"></div>
+            <a href="cart.html"> <i class="fas fa-shopping-cart"></i> <span>(0)</span> </a>
+         </div>
+         <div class="user-box">
+            <p>username : <span></span></p>
+            <p>email : <span></span></p>
+            <a href="#" onclick="logoutUser()" class="delete-btn">logout</a>
+         </div>
+      </div>
+   </div>
+</header>
+
+<div class="heading">
+   <h3>contact us</h3>
+   <p> <a href="home.html">home</a> / contact </p>
+</div>
+
+<section class="contact">
+   <form id="contactForm">
+      <h3>say something!</h3>
+      <input type="text" id="name" required placeholder="enter your name" class="box">
+      <input type="email" id="email" required placeholder="enter your email" class="box">
+      <input type="number" id="number" required placeholder="enter your number" class="box">
+      <textarea id="message" class="box" placeholder="enter your message" cols="30" rows="10" required></textarea>
+      <input type="submit" value="send message" class="btn">
+   </form>
+</section>
+
+<!-- Footer Layout Included -->
+<section class="footer">
+   <div class="box-container">
+      <div class="box">
+         <h3>quick links</h3>
+         <a href="home.html">home</a>
+         <a href="about.html">about</a>
+         <a href="shop.html">shop</a>
+         <a href="contact.html">contact</a>
+      </div>
+      <div class="box">
+         <h3>extra links</h3>
+         <a href="login.html">login</a>
+         <a href="register.html">register</a>
+         <a href="cart.html">cart</a>
+         <a href="orders.html">orders</a>
+      </div>
+      <div class="box">
+         <h3>contact info</h3>
+         <p> <i class="fas fa-phone"></i> YOUR_PHONE_NUMBER</p>
+         <p> <i class="fas fa-envelope"></i> vijaymahes9080@gmail.com </p>
+         <p> <i class="fas fa-map-marker-alt"></i> India </p>
+      </div>
+      <div class="box">
+         <h3>follow us</h3>
+         <a href="#"> <i class="fab fa-facebook-f"></i> facebook </a>
+         <a href="#"> <i class="fab fa-twitter"></i> twitter </a>
+         <a href="#"> <i class="fab fa-instagram"></i> instagram </a>
+         <a href="#"> <i class="fab fa-linkedin"></i> linkedin </a>
+      </div>
+   </div>
+</section>
+
+<script src="js/db.js"></script>
+<script src="js/script.js"></script>
+<script>
+   document.addEventListener('DOMContentLoaded', () => {
+      // Authenticate
+      const user = checkAuth();
+      if (!user) return;
+
+      const contactForm = document.getElementById('contactForm');
+      contactForm.addEventListener('submit', (e) => {
+         e.preventDefault();
+         const name = document.getElementById('name').value.trim();
+         const email = document.getElementById('email').value.trim();
+         const number = document.getElementById('number').value;
+         const msgContent = document.getElementById('message').value.trim();
+
+         // Save message
+         addMessage(user.id, name, email, number, msgContent);
+         showNotification('message sent successfully!');
+         contactForm.reset();
+      });
+   });
+</script>
+</body>
+</html>

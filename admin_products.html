@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>products</title>
+   <!-- font awesome cdn link  -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+   <!-- custom admin css file link  -->
+   <link rel="stylesheet" href="css/admin_style.css">
+</head>
+<body>
+   
+<!-- Admin Header Included -->
+<header class="header">
+   <div class="flex">
+      <a href="admin_page.html" class="logo">Admin<span>Panel</span></a>
+      <nav class="navbar">
+         <a href="admin_page.html">home</a>
+         <a href="admin_products.php">products</a> <!-- Wait, link to admin_products.html -->
+         <a href="admin_orders.html">orders</a>
+         <a href="admin_users.html">users</a>
+         <a href="admin_contacts.html">messages</a>
+      </nav>
+      <div class="icons">
+         <div id="menu-btn" class="fas fa-bars"></div>
+         <div id="user-btn" class="fas fa-user"></div>
+      </div>
+      <div class="account-box">
+         <p>username : <span></span></p>
+         <p>email : <span></span></p>
+         <a href="#" onclick="logoutUser()" class="delete-btn">logout</a>
+         <div>new <a href="login.html">login</a> | <a href="register.html">register</a></div>
+      </div>
+   </div>
+</header>
+
+<!-- show add product form starts -->
+<section class="add-products">
+   <form id="addProductForm">
+      <h3>add product</h3>
+      <input type="text" id="pName" class="box" placeholder="enter product name" required>
+      <input type="number" min="0" id="pPrice" class="box" placeholder="enter product price" required>
+      <input type="text" id="pImageUrl" class="box" placeholder="enter image filename (e.g. book_1.jpg) or image URL">
+      <p style="font-size: 1.4rem; color: var(--light-color); text-align: left; margin: -0.5rem 0 1rem 0;">Or select local image:</p>
+      <input type="file" id="pImageFile" accept="image/jpg, image/jpeg, image/png" class="box">
+      <input type="submit" value="add product" class="btn">
+   </form>
+</section>
+<!-- show add product form ends -->
+
+<!-- show products section starts -->
+<section class="show-products">
+   <div class="box-container" id="productsContainer">
+      <!-- Products loaded dynamically -->
+   </div>
+</section>
+<!-- show products section ends -->
+
+<script src="js/db.js"></script>
+<script src="js/admin_script.js"></script>
+<script>
+   // Fix header navbar links to .html
+   document.querySelectorAll('.navbar a').forEach(a => {
+      a.href = a.getAttribute('href').replace('.php', '.html');
+   });
+
+   document.addEventListener('DOMContentLoaded', () => {
+      // Authenticate as Admin
+      const admin = checkAuth('admin');
+      if (!admin) return;
+
+      const addProductForm = document.getElementById('addProductForm');
+      const productsContainer = document.getElementById('productsContainer');
+
+      function renderProductsList() {
+         const products = getProducts();
+         productsContainer.innerHTML = '';
+
+         if (products.length === 0) {
+            productsContainer.innerHTML = '<p class="empty">no products added yet!</p>';
+            return;
+         }
+
+         products.forEach(p => {
+            const box = document.createElement('div');
+            box.className = 'box';
+            
+            let imgSource = p.image.startsWith('http') ? p.image : `uploaded_img/${p.image}`;
+            
+            box.innerHTML = `
+               <img src="${imgSource}" alt="${p.name}" onerror="this.src='https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=300';">
+               <div class="name">${p.name}</div>
+               <div class="price">৳${p.price}/-</div>
+               <button class="delete-btn" id="deleteBtn-${p.id}">delete</button>
+            `;
+
+            box.querySelector(`#deleteBtn-${p.id}`).addEventListener('click', () => {
+               if (confirm('delete this product?')) {
+                  deleteProduct(p.id);
+                  showNotification('product deleted successfully!');
+                  renderProductsList();
+               }
+            });
+
+            productsContainer.appendChild(box);
+         });
+      }
+
+      addProductForm.addEventListener('submit', (e) => {
+         e.preventDefault();
+         const name = document.getElementById('pName').value.trim();
+         const price = document.getElementById('pPrice').value;
+         const urlInput = document.getElementById('pImageUrl').value.trim();
+         const fileInput = document.getElementById('pImageFile');
+
+         let image = 'book_1.jpg'; // default fallback
+         
+         if (urlInput) {
+            image = urlInput;
+         } else if (fileInput.files && fileInput.files.length > 0) {
+            image = fileInput.files[0].name;
+         }
+
+         addProduct(name, price, image);
+         showNotification('product added successfully!');
+         addProductForm.reset();
+         renderProductsList();
+      });
+
+      renderProductsList();
+   });
+</script>
+</body>
+</html>

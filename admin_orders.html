@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>orders</title>
+   <!-- font awesome cdn link  -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+   <!-- custom admin css file link  -->
+   <link rel="stylesheet" href="css/admin_style.css">
+</head>
+<body>
+   
+<!-- Admin Header Included -->
+<header class="header">
+   <div class="flex">
+      <a href="admin_page.html" class="logo">Admin<span>Panel</span></a>
+      <nav class="navbar">
+         <a href="admin_page.html">home</a>
+         <a href="admin_products.html">products</a>
+         <a href="admin_orders.html">orders</a>
+         <a href="admin_users.html">users</a>
+         <a href="admin_contacts.html">messages</a>
+      </nav>
+      <div class="icons">
+         <div id="menu-btn" class="fas fa-bars"></div>
+         <div id="user-btn" class="fas fa-user"></div>
+      </div>
+      <div class="account-box">
+         <p>username : <span></span></p>
+         <p>email : <span></span></p>
+         <a href="#" onclick="logoutUser()" class="delete-btn">logout</a>
+         <div>new <a href="login.html">login</a> | <a href="register.html">register</a></div>
+      </div>
+   </div>
+</header>
+
+<section class="admin-orders">
+   <h1 class="title">placed orders</h1>
+   <div class="box-container" id="ordersContainer">
+      <!-- Orders loaded dynamically -->
+   </div>
+</section>
+
+<script src="js/db.js"></script>
+<script src="js/admin_script.js"></script>
+<script>
+   document.addEventListener('DOMContentLoaded', () => {
+      // Authenticate as Admin
+      const admin = checkAuth('admin');
+      if (!admin) return;
+
+      const container = document.getElementById('ordersContainer');
+
+      function renderOrders() {
+         const orders = getOrders();
+         container.innerHTML = '';
+
+         if (orders.length === 0) {
+            container.innerHTML = '<p class="empty">no orders placed yet!</p>';
+            return;
+         }
+
+         orders.forEach(o => {
+            const box = document.createElement('div');
+            box.className = 'box';
+            
+            box.innerHTML = `
+               <p> user id : <span>${o.user_id}</span> </p>
+               <p> placed on : <span>${o.placed_on}</span> </p>
+               <p> name : <span>${o.name}</span> </p>
+               <p> number : <span>${o.number}</span> </p>
+               <p> email : <span>${o.email}</span> </p>
+               <p> address : <span>${o.address}</span> </p>
+               <p> total products : <span>${o.total_products}</span> </p>
+               <p> total price : <span>৳${o.total_price}/-</span> </p>
+               <p> payment method : <span>${o.method}</span> </p>
+               <form id="orderForm-${o.id}">
+                  <select name="update_payment" id="selectPayment-${o.id}">
+                     <option value="pending" ${o.payment_status === 'pending' ? 'selected' : ''}>pending</option>
+                     <option value="completed" ${o.payment_status === 'completed' ? 'selected' : ''}>completed</option>
+                  </select>
+                  <input type="submit" value="update" class="option-btn">
+                  <button type="button" class="delete-btn" id="deleteOrder-${o.id}">delete</button>
+               </form>
+            `;
+
+            // Update order action
+            box.querySelector(`#orderForm-${o.id}`).addEventListener('submit', (e) => {
+               e.preventDefault();
+               const val = box.querySelector(`#selectPayment-${o.id}`).value;
+               updateOrderStatus(o.id, val);
+               showNotification('order payment status updated!');
+               renderOrders();
+            });
+
+            // Delete order action
+            box.querySelector(`#deleteOrder-${o.id}`).addEventListener('click', () => {
+               if (confirm('delete this order?')) {
+                  deleteOrder(o.id);
+                  showNotification('order deleted successfully!');
+                  renderOrders();
+               }
+            });
+
+            container.appendChild(box);
+         });
+      }
+
+      renderOrders();
+   });
+</script>
+</body>
+</html>

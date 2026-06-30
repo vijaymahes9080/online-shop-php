@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>orders</title>
+   <!-- font awesome cdn link  -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+   <!-- custom css file link  -->
+   <link rel="stylesheet" href="css/style.css">
+   <style>
+      /* Styles specifically for printing invoice */
+      @media print {
+         body * {
+            visibility: hidden;
+         }
+         #printArea, #printArea * {
+            visibility: visible;
+         }
+         #printArea {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            padding: 20px;
+            font-size: 14pt;
+            color: #000;
+            background: #fff;
+         }
+         .no-print {
+            display: none !important;
+         }
+      }
+   </style>
+</head>
+<body>
+   
+<!-- Header Layout Included -->
+<header class="header no-print">
+   <div class="header-1">
+      <div class="flex">
+         <div class="share">
+            <a href="#" class="fab fa-facebook-f"></a>
+            <a href="#" class="fab fa-twitter"></a>
+            <a href="#" class="fab fa-instagram"></a>
+            <a href="#" class="fab fa-linkedin"></a>
+         </div>
+         <p> new <a href="login.html">login</a> | <a href="register.html">register</a> </p>
+      </div>
+   </div>
+   <div class="header-2">
+      <div class="flex">
+         <a href="home.html" class="logo">বইমেলা</a>
+         <nav class="navbar">
+            <a href="home.html">home</a>
+            <a href="about.html">about</a>
+            <a href="shop.html">shop</a>
+            <a href="contact.html">contact</a>
+            <a href="orders.html">orders</a>
+         </nav>
+         <div class="icons">
+            <div id="menu-btn" class="fas fa-bars"></div>
+            <a href="search_page.html" class="fas fa-search"></a>
+            <div id="user-btn" class="fas fa-user"></div>
+            <a href="cart.html"> <i class="fas fa-shopping-cart"></i> <span>(0)</span> </a>
+         </div>
+         <div class="user-box">
+            <p>username : <span></span></p>
+            <p>email : <span></span></p>
+            <a href="#" onclick="logoutUser()" class="delete-btn">logout</a>
+         </div>
+      </div>
+   </div>
+</header>
+
+<div class="heading no-print">
+   <h3>placed orders</h3>
+   <p> <a href="home.html">home</a> / orders </p>
+</div>
+
+<section class="placed-orders">
+   <h1 class="title no-print">placed orders</h1>
+   <div class="box-container" id="ordersContainer">
+      <!-- User orders loaded dynamically -->
+   </div>
+</section>
+
+<!-- Invoice Modal container for print -->
+<div id="printArea" style="display: none;"></div>
+
+<!-- Footer Layout Included -->
+<section class="footer no-print">
+   <div class="box-container">
+      <div class="box">
+         <h3>quick links</h3>
+         <a href="home.html">home</a>
+         <a href="about.html">about</a>
+         <a href="shop.html">shop</a>
+         <a href="contact.html">contact</a>
+      </div>
+      <div class="box">
+         <h3>extra links</h3>
+         <a href="login.html">login</a>
+         <a href="register.html">register</a>
+         <a href="cart.html">cart</a>
+         <a href="orders.html">orders</a>
+      </div>
+      <div class="box">
+         <h3>contact info</h3>
+         <p> <i class="fas fa-phone"></i> YOUR_PHONE_NUMBER</p>
+         <p> <i class="fas fa-envelope"></i> vijaymahes9080@gmail.com </p>
+         <p> <i class="fas fa-map-marker-alt"></i> India </p>
+      </div>
+      <div class="box">
+         <h3>follow us</h3>
+         <a href="#"> <i class="fab fa-facebook-f"></i> facebook </a>
+         <a href="#"> <i class="fab fa-twitter"></i> twitter </a>
+         <a href="#"> <i class="fab fa-instagram"></i> instagram </a>
+         <a href="#"> <i class="fab fa-linkedin"></i> linkedin </a>
+      </div>
+   </div>
+</section>
+
+<script src="js/db.js"></script>
+<script src="js/script.js"></script>
+<script>
+   document.addEventListener('DOMContentLoaded', () => {
+      // Authenticate
+      const user = checkAuth();
+      if (!user) return;
+
+      const container = document.getElementById('ordersContainer');
+      const orders = getUserOrders(user.id);
+
+      if (orders.length === 0) {
+         container.innerHTML = '<p class="empty">no orders placed yet!</p>';
+      } else {
+         orders.forEach(o => {
+            const box = document.createElement('div');
+            box.className = 'box';
+            
+            box.innerHTML = `
+               <p> placed on : <span>${o.placed_on}</span> </p>
+               <p> name : <span>${o.name}</span> </p>
+               <p> number : <span>${o.number}</span> </p>
+               <p> email : <span>${o.email}</span> </p>
+               <p> address : <span>${o.address}</span> </p>
+               <p> payment method : <span>${o.method}</span> </p>
+               <p> your orders : <span>${o.total_products}</span> </p>
+               <p> total price : <span>৳${o.total_price}/-</span> </p>
+               <p> payment status : <span style="color:${o.payment_status === 'pending' ? 'red' : 'green'};">${o.payment_status}</span> </p>
+               <button class="option-btn" id="printInvoiceBtn-${o.id}" style="width: 100%; border: none; outline: none; margin-top: 1.5rem;">Download Invoice (PDF/Print)</button>
+            `;
+
+            box.querySelector(`#printInvoiceBtn-${o.id}`).addEventListener('click', () => {
+               triggerInvoicePrint(o);
+            });
+
+            container.appendChild(box);
+         });
+      }
+
+      function triggerInvoicePrint(order) {
+         const printArea = document.getElementById('printArea');
+         printArea.innerHTML = `
+            <div style="border: 2px solid #333; padding: 30px; font-family: sans-serif; background: #fff; max-width: 650px; margin: 0 auto;">
+               <div style="text-align: center; border-bottom: 2px dashed #333; padding-bottom: 15px; margin-bottom: 20px;">
+                  <h1 style="color: #8e44ad; font-size: 28px; margin: 0 0 5px 0;">বইমেলা অনলাইন বুক শপ</h1>
+                  <p style="margin: 0; font-size: 14px; color: #666;">ইনভয়েস রশিদ / Invoice Receipt</p>
+               </div>
+               <div style="margin-bottom: 20px;">
+                  <p><strong>অর্ডার আইডি / Order ID:</strong> #${order.id}</p>
+                  <p><strong>তারিখ / Date:</strong> ${order.placed_on}</p>
+                  <p><strong>গ্রাহকের নাম / Customer:</strong> ${order.name}</p>
+                  <p><strong>যোগাযোগ / Phone:</strong> ${order.number}</p>
+                  <p><strong>ইমেইল / Email:</strong> ${order.email}</p>
+                  <p><strong>ঠিকানা / Delivery Address:</strong> ${order.address}</p>
+               </div>
+               <div style="border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; padding: 15px 0; margin-bottom: 20px;">
+                  <h3 style="margin-top: 0;">অর্ডারকৃত বইসমূহ / Ordered Items:</h3>
+                  <p style="font-size: 16px; line-height: 1.6;">${order.total_products}</p>
+               </div>
+               <div style="text-align: right; font-size: 18px;">
+                  <p><strong>পেমেন্ট পদ্ধতি / Payment Method:</strong> ${order.method}</p>
+                  <p style="color: #c0392b; font-size: 22px;"><strong>সর্বমোট মূল্য / Total Price: ৳${order.total_price}/-</strong></p>
+                  <p><strong>পেমেন্ট স্ট্যাটাস / Status:</strong> <span style="font-weight: bold; color: ${order.payment_status === 'pending' ? 'red' : 'green'};">${order.payment_status}</span></p>
+               </div>
+               <div style="text-align: center; border-top: 2px dashed #333; padding-top: 15px; margin-top: 30px; font-size: 12px; color: #777;">
+                  <p>বইমেলা থেকে বই কেনার জন্য আপনাকে ধন্যবাদ!</p>
+                  <p class="no-print" style="margin-top: 10px;"><button onclick="window.print()" style="padding: 10px 20px; font-size: 16px; background-color: #8e44ad; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Print / Save as PDF</button></p>
+               </div>
+            </div>
+         `;
+         printArea.style.display = 'block';
+         window.print();
+         setTimeout(() => {
+            printArea.style.display = 'none';
+         }, 1000);
+      }
+   });
+</script>
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>home</title>
+   <!-- font awesome cdn link  -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+   <!-- custom css file link  -->
+   <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+   
+<!-- Header Layout Included -->
+<header class="header">
+   <div class="header-1">
+      <div class="flex">
+         <div class="share">
+            <a href="#" class="fab fa-facebook-f"></a>
+            <a href="#" class="fab fa-twitter"></a>
+            <a href="#" class="fab fa-instagram"></a>
+            <a href="#" class="fab fa-linkedin"></a>
+         </div>
+         <p> new <a href="login.html">login</a> | <a href="register.html">register</a> </p>
+      </div>
+   </div>
+   <div class="header-2">
+      <div class="flex">
+         <a href="home.html" class="logo">বইমেলা</a>
+         <nav class="navbar">
+            <a href="home.html">home</a>
+            <a href="about.html">about</a>
+            <a href="shop.html">shop</a>
+            <a href="contact.html">contact</a>
+            <a href="orders.html">orders</a>
+         </nav>
+         <div class="icons">
+            <div id="menu-btn" class="fas fa-bars"></div>
+            <a href="search_page.html" class="fas fa-search"></a>
+            <div id="user-btn" class="fas fa-user"></div>
+            <a href="cart.html"> <i class="fas fa-shopping-cart"></i> <span id="cartCountSpan">(0)</span> </a>
+         </div>
+         <div class="user-box">
+            <p>username : <span></span></p>
+            <p>email : <span></span></p>
+            <a href="#" onclick="logoutUser()" class="delete-btn">logout</a>
+         </div>
+      </div>
+   </div>
+</header>
+
+<section class="home">
+   <div class="content">
+      <h3>সেরা লেখকদের সেরা <br> বই  কম সময়ে  ,<br>কম মূল্যে    </h3>
+      <p>ঘরে বসেই কিনুন বইমেলার আসল বই.........</p>
+      <a href="about.html" class="white-btn">discover more</a>
+   </div>
+</section>
+
+<section class="products">
+   <h1 class="title">latest products</h1>
+   <div class="box-container" id="productsContainer">
+      <!-- Dynamic Products injected here -->
+   </div>
+   <div class="load-more" style="margin-top: 2rem; text-align:center">
+      <a href="shop.html" class="option-btn">load more</a>
+   </div>
+</section>
+
+<section class="about">
+   <div class="flex">
+      <div class="image">
+         <img src="images/about-img.jpg" alt="" onerror="this.src='https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500';">
+      </div>
+      <div class="content">
+         <h3>about us</h3>
+         <p>বইমেলা is one of the leading publications in Bangladesh, guided by three principles: customer satisfaction rather than competitor focus, passion for intellectuality, and commitment to high-quality products.</p>
+         <a href="about.html" class="btn">read more</a>
+      </div>
+   </div>
+</section>
+
+<section class="home-contact">
+   <div class="content">
+      <h3>have any questions?</h3>
+      <p>Thank you for visiting us. We want to ensure that your experience with our book is as enjoyable and seamless as possible. If you have any questions or concerns, please take a moment to review the following frequently asked questions. If your question isn't covered, feel free to reach out to our dedicated support team at vijaymahes9080@gmail.com or through our contact form.</p>
+      <a href="contact.html" class="white-btn">contact us</a>
+   </div>
+</section>
+
+<!-- Footer Layout Included -->
+<section class="footer">
+   <div class="box-container">
+      <div class="box">
+         <h3>quick links</h3>
+         <a href="home.html">home</a>
+         <a href="about.html">about</a>
+         <a href="shop.html">shop</a>
+         <a href="contact.html">contact</a>
+      </div>
+      <div class="box">
+         <h3>extra links</h3>
+         <a href="login.html">login</a>
+         <a href="register.html">register</a>
+         <a href="cart.html">cart</a>
+         <a href="orders.html">orders</a>
+      </div>
+      <div class="box">
+         <h3>contact info</h3>
+         <p> <i class="fas fa-phone"></i> YOUR_PHONE_NUMBER</p>
+         <p> <i class="fas fa-envelope"></i> vijaymahes9080@gmail.com </p>
+         <p> <i class="fas fa-map-marker-alt"></i> India </p>
+      </div>
+      <div class="box">
+         <h3>follow us</h3>
+         <a href="#"> <i class="fab fa-facebook-f"></i> facebook </a>
+         <a href="#"> <i class="fab fa-twitter"></i> twitter </a>
+         <a href="#"> <i class="fab fa-instagram"></i> instagram </a>
+         <a href="#"> <i class="fab fa-linkedin"></i> linkedin </a>
+      </div>
+   </div>
+</section>
+
+<script src="js/db.js"></script>
+<script src="js/script.js"></script>
+<script>
+   document.addEventListener('DOMContentLoaded', () => {
+      // Authenticate
+      const user = checkAuth();
+      if (!user) return;
+
+      // Render first 6 products
+      const products = getProducts().slice(0, 6);
+      const container = document.getElementById('productsContainer');
+      
+      if (products.length === 0) {
+         container.innerHTML = '<p class="empty">no products added yet!</p>';
+      } else {
+         products.forEach(p => {
+            const form = document.createElement('form');
+            form.className = 'box';
+            
+            // Clean dynamic cover fallbacks
+            let imagePath = `uploaded_img/${p.image}`;
+            
+            form.innerHTML = `
+               <img class="image" src="${imagePath}" alt="${p.name}" onerror="this.src='https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=300';">
+               <div class="name">${p.name}</div>
+               <div class="price">৳${p.price}/-</div>
+               <input type="number" min="1" name="product_quantity" value="1" class="qty">
+               <input type="hidden" name="product_name" value="${p.name}">
+               <input type="hidden" name="product_price" value="${p.price}">
+               <input type="hidden" name="product_image" value="${p.image}">
+               <input type="submit" value="add to cart" class="btn">
+            `;
+            
+            form.addEventListener('submit', (e) => {
+               e.preventDefault();
+               const qty = form.querySelector('input[name="product_quantity"]').value;
+               const res = addToCart(user.id, p.name, p.price, p.image, qty);
+               showNotification(res.message);
+               updateHeaderNav();
+            });
+
+            container.appendChild(form);
+         });
+      }
+   });
+</script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>messages</title>
+   <!-- font awesome cdn link  -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+   <!-- custom admin css file link  -->
+   <link rel="stylesheet" href="css/admin_style.css">
+</head>
+<body>
+   
+<!-- Admin Header Included -->
+<header class="header">
+   <div class="flex">
+      <a href="admin_page.html" class="logo">Admin<span>Panel</span></a>
+      <nav class="navbar">
+         <a href="admin_page.html">home</a>
+         <a href="admin_products.html">products</a>
+         <a href="admin_orders.html">orders</a>
+         <a href="admin_users.html">users</a>
+         <a href="admin_contacts.html">messages</a>
+      </nav>
+      <div class="icons">
+         <div id="menu-btn" class="fas fa-bars"></div>
+         <div id="user-btn" class="fas fa-user"></div>
+      </div>
+      <div class="account-box">
+         <p>username : <span></span></p>
+         <p>email : <span></span></p>
+         <a href="#" onclick="logoutUser()" class="delete-btn">logout</a>
+         <div>new <a href="login.html">login</a> | <a href="register.html">register</a></div>
+      </div>
+   </div>
+</header>
+
+<section class="messages">
+   <h1 class="title">messages</h1>
+   <div class="box-container" id="messagesContainer">
+      <!-- Messages loaded dynamically -->
+   </div>
+</section>
+
+<script src="js/db.js"></script>
+<script src="js/admin_script.js"></script>
+<script>
+   document.addEventListener('DOMContentLoaded', () => {
+      // Authenticate as Admin
+      const admin = checkAuth('admin');
+      if (!admin) return;
+
+      const container = document.getElementById('messagesContainer');
+
+      function renderMessages() {
+         const messages = getMessages();
+         container.innerHTML = '';
+
+         if (messages.length === 0) {
+            container.innerHTML = '<p class="empty">you have no messages!</p>';
+            return;
+         }
+
+         messages.forEach(m => {
+            const box = document.createElement('div');
+            box.className = 'box';
+            
+            box.innerHTML = `
+               <p> user id : <span>${m.user_id}</span> </p>
+               <p> name : <span>${m.name}</span> </p>
+               <p> number : <span>${m.number}</span> </p>
+               <p> email : <span>${m.email}</span> </p>
+               <p> message : <span>${m.message}</span> </p>
+               <button class="delete-btn" id="deleteMsg-${m.id}">delete message</button>
+            `;
+
+            box.querySelector(`#deleteMsg-${m.id}`).addEventListener('click', () => {
+               if (confirm('delete this message?')) {
+                  deleteMessage(m.id);
+                  showNotification('message deleted successfully!');
+                  renderMessages();
+               }
+            });
+
+            container.appendChild(box);
+         });
+      }
+
+      renderMessages();
+   });
+</script>
+</body>
+</html>
