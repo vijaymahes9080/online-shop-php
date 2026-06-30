@@ -1,29 +1,69 @@
-# OS-specific files
+# ==============================================================================
+#                  📚 BOI MELA - VERSION CONTROL IGNORES (.gitignore)
+# ==============================================================================
+# This file specifies intentionally untracked files that Git should ignore.
+# Clean organization helps prevent configuration leakages and environment mismatches.
+
+# ------------------------------------------------------------------------------
+# 💻 OPERATING SYSTEM SPECIFIC FILES (Local filesystem metadata)
+# ------------------------------------------------------------------------------
+# Windows Thumbnail cache & desktop configuration
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# macOS Folder configurations & file index/metadata caches
 .DS_Store
 .DS_Store?
 ._*
 .Spotlight-V100
 .Trashes
-ehthumbs.db
-Thumbs.db
 
-# IDE and Editor files
+# Linux buffer & system index files
+*~
+
+# ------------------------------------------------------------------------------
+# 🛠️ IDE & DEVELOPMENT EDITORS (Workspace settings and layouts)
+# ------------------------------------------------------------------------------
+# Visual Studio Code configurations
+.vscode/*
+!.vscode/extensions.json
+.history/
+
+# JetBrains IDEs (PhpStorm, WebStorm, etc.)
 .idea/
-.vscode/
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.swp
-*.swo
+*.iml
+
+# NetBeans / Eclipse configuration folders
 .project
 .settings/
 .buildpath
 
-# PHP log files and caches
+# Text Editor backups & swap files
+*.swp
+*.swo
+*~
+
+# ------------------------------------------------------------------------------
+# ⚙️ PHP RUNTIME & LOG FILES (Server logs and test outputs)
+# ------------------------------------------------------------------------------
+# PHP/Apache runtime error logs (should be examined locally only)
 error_log
 *.log
-.phpunit.result.cache
 
-# Composer dependencies
+# PHPUnit cache & coverage reporting
+.phpunit.result.cache
+.phpunit.cache/
+tests/_output/
+
+# ------------------------------------------------------------------------------
+# 📦 DEPENDENCY MANAGERS (External package folders)
+# ------------------------------------------------------------------------------
+# Composer dependencies (should always be rebuilt via `composer install`)
 vendor/
+
+# Node package dependencies (if frontend tools are added later)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
