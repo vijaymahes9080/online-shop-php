@@ -118,3 +118,5 @@ Here is a preview of the Boi Mela online shop:
 ### Book Showcase Grid
 ![Boi Mela Showcase](images/boimela_showcase.png)
 
+
+<!-- contribution checkpoint 1 -->
