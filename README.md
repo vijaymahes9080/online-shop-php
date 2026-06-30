@@ -122,3 +122,5 @@ Here is a preview of the Boi Mela online shop:
 <!-- contribution checkpoint 1 -->
 
 <!-- contribution checkpoint 2 -->
+
+<!-- contribution checkpoint 3 -->
