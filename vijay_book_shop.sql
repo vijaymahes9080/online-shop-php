@@ -78,11 +78,11 @@ CREATE TABLE `orders` (
 INSERT INTO `orders` (`id`, `user_id`, `name`, `number`, `email`, `method`, `address`, `total_products`, `total_price`, `placed_on`, `payment_status`) VALUES
 (10, 4, 'ASHFIKUR RAHMAN ', '22', 'ashfikurrahman341@gmail.com', 'cash on delivery', 'flat no. 555, Ytg, Vgh, Hhhs - 55551', ', নিবিড় গণিত (1) , অঙ্ক ভাইয়া (1) , ভাল্লাগে না (33) ', 5986, '24-Jan-2024', 'pending'),
 (11, 6, 'Nidhgiih', '04543487', 'udjdhd@hfjfjfjj', 'cash on delivery', 'flat no. 64, jfi, hdisodj, bdjdjd - 642557', ', অঙ্ক ভাইয়া (1) ', 176, '24-Jan-2024', 'pending'),
-(13, 7, 'Mahbub Hasan Abid', '2222222', 'a@gmail.com', 'cash on delivery', 'flat no. 11111, Rajbari,Dhaka, dhaka, Bangladesh - 1203', ', Bash And LUCY (1) , BE WELL BEE (4) ', 609, '25-Jan-2024', 'pending'),
+(13, 7, 'Vijay Mahes', '2222222', 'vijaypradhap2004@gmail.com', 'cash on delivery', 'flat no. 11111, Rajbari, Mumbai, Maharashtra, India - 400001', ', Bash And LUCY (1) , BE WELL BEE (4) ', 609, '25-Jan-2024', 'pending'),
 (14, 8, 'AR Dhrubo', '23423423', '23423423@gdff.com', 'cash on delivery', 'flat no. 34234, 10/a,Muktijoddhas tower-1, College Gate, Mohammadpur(Dhaka), Bangladesh - 1209', ', 5 (1) , অঙ্ক ভাইয়া (5) ', 885, '27-Jan-2024', 'pending'),
-(15, 7, 'Mahbub Hasan Abid', '12', 'm@gmail.com', 'credit card', 'flat no. 44, Rajbari,Dhaka, dhaka, Bangladesh - 1203', ', 5 (1) ', 5, '11-Feb-2024', 'pending'),
-(16, 7, 'Mahbub Hasan Abid', '44', 'm@gmail.com', 'cash on delivery', 'flat no. 55, Rajbari,Dhaka, dhaka, Bangladesh - 1203', ', নিবিড় গণিত (1) ', 200, '11-Feb-2024', 'pending'),
-(17, 7, 'Mahbub Hasan Abid', '-5', 'm@gmail.com', 'bkash', 'flat no. 2, Rajbari,Dhaka, dhaka, Bangladesh - 1203', ', অঙ্ক ভাইয়া (111) ', 19536, '23-Feb-2024', 'pending');
+(15, 7, 'Vijay Mahes', '12', 'vijaypradhap2004@gmail.com', 'credit card', 'flat no. 44, Rajbari, Mumbai, Maharashtra, India - 400001', ', 5 (1) ', 5, '11-Feb-2024', 'pending'),
+(16, 7, 'Vijay Mahes', '44', 'vijaypradhap2004@gmail.com', 'cash on delivery', 'flat no. 55, Rajbari, Mumbai, Maharashtra, India - 400001', ', নিবিড় গণিত (1) ', 200, '11-Feb-2024', 'pending'),
+(17, 7, 'Vijay Mahes', '-5', 'vijaypradhap2004@gmail.com', 'bkash', 'flat no. 2, Rajbari, Mumbai, Maharashtra, India - 400001', ', অঙ্ক ভাইয়া (111) ', 19536, '23-Feb-2024', 'pending');
 
 -- --------------------------------------------------------
 
@@ -133,7 +133,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `user_type`) VALUES
-(1, 'Mahbub Hasan Abid', 'a@gmail.com', '0cc175b9c0f1b6a831c399e269772661', 'admin'),
+(1, 'Vijay Mahes', 'vijaypradhap2004@gmail.com', '0cc175b9c0f1b6a831c399e269772661', 'admin'),
 (2, 'sgdhuarei', 'iamfahimfaisal39@gmail.com', '25d55ad283aa400af464c76d713c07ad', 'user'),
 (3, 'mmm', 'roman@gmail.com', 'b179a9ec0777eae19382c14319872e1b', 'user'),
 (4, 'ASHFIKUR RAHMAN ', 'ashfikur18@cse.pstu.ac.bd', '5985894a23c7253f93a76ab4d9eab0d6', 'user'),

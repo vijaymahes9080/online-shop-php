@@ -14,7 +14,7 @@ if(!empty($_GET))
 	$_SESSION['payer_email'] = $_GET['payer_email']; 
 	$_SESSION['payer_name'] = $_GET['first_name'].' '.$_GET['last_name'];
 	
-	date_default_timezone_set('Asia/Dhaka'); 
+	date_default_timezone_set('Asia/Kolkata'); 
 	
 	$sql="insert into payments (payment_id,payer_id,payer_name,payer_email,item_id,item_name,currency,amount,status,created_at) values ('".$_SESSION['txn_id']."','".$_SESSION['payer_id']."','".$_SESSION['payer_name']."','".$_SESSION['payer_email']."','','".$_SESSION['product']."','".$_SESSION['currency']."','".$_SESSION['amount']."','". $_SESSION['status']."','".date('y-m-d h:i:s')."')";
 	

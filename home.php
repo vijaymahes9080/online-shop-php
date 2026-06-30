@@ -104,7 +104,7 @@ if(isset($_POST['add_to_cart'])){
 
       <div class="content">
          <h3>about us</h3>
-         <p>Online Book Shop is one of the leading publications in Bangladesh, guided by three principles: customer satisfaction rather than competitor focus, passion for intellectuality, and commitment to high-quality products.</p>
+         <p>Online Book Shop is one of the leading publications in India, guided by three principles: customer satisfaction rather than competitor focus, passion for intellectuality, and commitment to high-quality products.</p>
          <a href="about.php" class="btn">read more</a>
       </div>
 
@@ -116,7 +116,7 @@ if(isset($_POST['add_to_cart'])){
 
    <div class="content">
       <h3>have any questions?</h3>
-      <p>Thank you for visiting us. We want to ensure that your experience with our book is as enjoyable and seamless as possible. If you have any questions or concerns, please take a moment to review the following frequently asked questions. If your question isn't covered, feel free to reach out to our dedicated support team at vijaymahes9080@gmail.com or through our contact form.</p>
+      <p>Thank you for visiting us. We want to ensure that your experience with our book is as enjoyable and seamless as possible. If you have any questions or concerns, please take a moment to review the following frequently asked questions. If your question isn't covered, feel free to reach out to our dedicated support team at vijaypradhap2004@gmail.com or through our contact form.</p>
       <a href="contact.php" class="white-btn">contact us</a>
    </div>
 
