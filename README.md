@@ -1,4 +1,6 @@
-# Online  Shop
+# Online Shop - বইমেলা
+
+![Boi Mela Banner](images/boimela_banner.png)
 
 ## Table of Contents
 - [Introduction](#introduction)
@@ -106,7 +108,13 @@ I am happy to address any questions or provide further assistance that you may r
 - **GitHub**: [vijaymahes9080](https://github.com/vijaymahes9080)
 
 
-## Screenshorts
+## Screenshots & Visuals
 
-Screenshots are available in the repository after cloning the project.
+Here is a preview of the Boi Mela online shop:
+
+### Repository Banner
+![Boi Mela Banner](images/boimela_banner.png)
+
+### Book Showcase Grid
+![Boi Mela Showcase](images/boimela_showcase.png)
 
