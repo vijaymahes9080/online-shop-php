@@ -85,7 +85,7 @@ $pdf->writeHTML($content);
 //$file_location = "/opt/lampp/htdocs/examples/generate_pdf/uploads/"; //for local xampp server
 
 
-//$file_name = $fetch_orders['name']."'s order from বইমেলা.pdf";
+//$file_name = $fetch_orders['name']."'s order from Online Book Shop.pdf";
 ob_end_clean();
 
 

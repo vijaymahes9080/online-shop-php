@@ -1,4 +1,4 @@
-# Online Shop - বইমেলা
+# Online Book Shop
 
 ![Boi Mela Banner](images/boimela_banner.png)
 

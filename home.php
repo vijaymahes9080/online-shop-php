@@ -53,7 +53,7 @@ if(isset($_POST['add_to_cart'])){
 
    <div class="content">
       <h3>সেরা লেখকদের সেরা <br> বই  কম সময়ে  ,<br>কম মূল্যে    </h3>
-      <p>ঘরে বসেই কিনুন বইমেলার আসল বই.........</p>
+      <p>Buy original books from Online Book Shop from the comfort of your home.........</p>
       <a href="about.php" class="white-btn">discover more</a>
    </div>
 
@@ -104,7 +104,7 @@ if(isset($_POST['add_to_cart'])){
 
       <div class="content">
          <h3>about us</h3>
-         <p>বইমেলা is one of the leading publications in Bangladesh, guided by three principles: customer satisfaction rather than competitor focus, passion for intellectuality, and commitment to high-quality products.</p>
+         <p>Online Book Shop is one of the leading publications in Bangladesh, guided by three principles: customer satisfaction rather than competitor focus, passion for intellectuality, and commitment to high-quality products.</p>
          <a href="about.php" class="btn">read more</a>
       </div>
 
